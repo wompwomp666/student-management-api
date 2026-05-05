@@ -1,26 +1,60 @@
-# Student Management API
+# 🎓 Student Management System (Full Stack)
 
-A Spring Boot REST API to manage student records using CRUD operations.
+A complete full-stack web application to manage student records with a clean UI and a RESTful backend.
 
-This project demonstrates how a backend application is structured using Controller → Service → Repository architecture along with proper exception handling.
+This project demonstrates real-world architecture using:
+- Spring Boot (Backend API)
+- HTML, CSS, JavaScript (Frontend)
+- Deployment on Render & Vercel
+
+---
+
+## 🌐 Live Demo
+
+🔗 Frontend (User Interface):  
+https://student-management-api-sand.vercel.app  
+
+🔗 Backend API:  
+https://student-management-api-sxdc.onrender.com  
 
 ---
 
 ## 🚀 Features
-- Create Student
-- Get All Students
-- Get Student by ID
-- Update Student
-- Delete Student
-- Global Exception Handling (`@RestControllerAdvice`)
+
+### 👤 Frontend
+- Add Student via UI form
+- View all students in table
+- Edit student details
+- Delete student
+- Toast notifications (success/error)
+- Live API integration
+
+### ⚙️ Backend
+- REST API with full CRUD operations
+- Layered architecture:
+  - Controller → Service → Repository
+- Global Exception Handling
+- CORS configured for frontend integration
+- In-memory database (H2)
 
 ---
 
 ## 🛠 Tech Stack
+
+### Frontend
+- HTML
+- CSS
+- Vanilla JavaScript (Fetch API)
+
+### Backend
 - Java
 - Spring Boot
 - Spring Data JPA
-- H2 / MySQL
+- H2 Database
+
+### Deployment
+- Backend → Render
+- Frontend → Vercel
 
 ---
 
@@ -36,10 +70,12 @@ This project demonstrates how a backend application is structured using Controll
 
 ---
 
-## 🔍 Example Error Response
+## ⚠️ Important Notes
 
-```json
-{
-  "message": "Student not found",
-  "status": 404
-}
+- Backend uses **H2 in-memory database**
+  - Data will reset when server restarts
+- First request may take time (Render free tier sleeps)
+
+---
+
+## 🧠 Architecture Overview
