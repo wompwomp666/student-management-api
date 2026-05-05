@@ -16,7 +16,17 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
+    // ✅ ADD STUDENT WITH VALIDATION
     public Student addStudent(Student student) {
+
+        if (studentRepository.existsByRollNumber(student.getRollNumber())) {
+            throw new RuntimeException("Roll number already exists");
+        }
+
+        if (studentRepository.existsByEmail(student.getEmail())) {
+            throw new RuntimeException("Email already exists");
+        }
+
         return studentRepository.save(student);
     }
 
@@ -36,12 +46,22 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
+    // ✅ UPDATE WITH DUPLICATE CHECK (IMPORTANT)
     public Student updateStudent(Long id, Student updatedStudent) {
 
-        Student existingStudent = studentRepository.findById(id).orElse(null);
+        Student existingStudent = studentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
 
-        if (existingStudent == null) {
-            throw new ResourceNotFoundException("Student not found");
+        // Check roll number (ignore same record)
+        if (!existingStudent.getRollNumber().equals(updatedStudent.getRollNumber()) &&
+                studentRepository.existsByRollNumber(updatedStudent.getRollNumber())) {
+            throw new RuntimeException("Roll number already exists");
+        }
+
+        // Check email (ignore same record)
+        if (!existingStudent.getEmail().equals(updatedStudent.getEmail()) &&
+                studentRepository.existsByEmail(updatedStudent.getEmail())) {
+            throw new RuntimeException("Email already exists");
         }
 
         existingStudent.setName(updatedStudent.getName());
@@ -52,7 +72,4 @@ public class StudentService {
 
         return studentRepository.save(existingStudent);
     }
-
-
-
 }

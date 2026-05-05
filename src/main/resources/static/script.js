@@ -34,30 +34,44 @@ async function addStudent() {
     }
 
     try {
+        let res;
+
         if (editId === null) {
             // ADD
-            const res = await fetch(API_URL, {
+            res = await fetch(API_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(student)
             });
 
-            if (!res.ok) throw new Error();
-
-            showToast("Student added successfully", "success");
-
         } else {
             // UPDATE
-            const res = await fetch(API_URL + "/" + editId, {
+            res = await fetch(API_URL + "/" + editId, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(student)
             });
+        }
 
-            if (!res.ok) throw new Error();
+        // 🔥 IMPORTANT FIX (error handling)
+        if (!res.ok) {
+            let errorMessage = "Operation failed";
 
+            try {
+                const errorData = await res.json();
+                errorMessage = errorData.message || errorMessage;
+            } catch (e) {
+                // fallback if response not JSON
+            }
+
+            throw new Error(errorMessage);
+        }
+
+        // SUCCESS
+        if (editId === null) {
+            showToast("Student added successfully", "success");
+        } else {
             showToast("Student updated successfully", "success");
-
             editId = null;
             document.querySelector(".primary-btn").innerText = "Add Student";
         }
@@ -66,7 +80,7 @@ async function addStudent() {
         loadStudents();
 
     } catch (err) {
-        showToast("Operation failed", "error");
+        showToast(err.message, "error"); // 🔥 now shows real backend message
         console.error(err);
     }
 }
