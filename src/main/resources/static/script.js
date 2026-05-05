@@ -1,5 +1,5 @@
 // BACKEND URL
-const API_URL = "http://localhost:8080/students";
+const API_URL = "https://student-management-api-sxdc.onrender.com/students";
 
 let editId = null;
 
