@@ -1,0 +1,267 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #eef2f7;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* HEADER */
+header {
+    background: linear-gradient(90deg, #1e3a8a, #2563eb);
+    color: white;
+    text-align: center;
+    padding: 18px;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* MAIN CONTAINER */
+.container {
+    width: 80%;
+    margin: auto;   /* 👈 THIS centers vertically */
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 30px;
+}
+
+/* CARD */
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* TITLES */
+h2 {
+    margin-bottom: 18px;
+    font-size: 18px;
+    color: #111827;
+}
+
+/* INPUT */
+.input-group {
+    margin-bottom: 15px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+input:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+/* BUTTON */
+.primary-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.primary-btn:hover {
+    background: #1d4ed8;
+}
+
+/* BADGE */
+.badge {
+    display: inline-block;
+    background: #10b981;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+/* TABLE */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+/* TABLE HEADER */
+th {
+    text-align: left;
+    padding: 12px;
+    background: #1f2937;
+    color: white;
+    font-size: 13px;
+}
+
+/* TABLE DATA */
+td {
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
+    background: white;
+}
+
+/* HOVER */
+tr:hover td {
+    background: #f3f4f6;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* DELETE BUTTON */
+.delete-btn {
+    background: #ef4444;          /* clean red */
+    border: none;
+    padding: 6px 10px;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.delete-btn:hover {
+    background: #dc2626;
+}
+
+/* ALIGN ACTION COLUMN */
+td:last-child {
+    text-align: center;
+}
+
+/* EDIT BUTTON */
+.edit-btn {
+    background: #f59e0b;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+.edit-btn:hover {
+    background: #d97706;
+}
+
+/* ACTION COLUMN FIX */
+td:last-child {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* EDIT BUTTON */
+.edit-btn {
+    background: #f59e0b;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: 0.2s;
+}
+
+.edit-btn:hover {
+    background: #d97706;
+}
+
+/* DELETE BUTTON */
+.delete-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: 0.2s;
+}
+
+.delete-btn:hover {
+    background: #dc2626;
+}
+
+/* ===== FIX ACTION BUTTON LAYOUT (FINAL OVERRIDE) ===== */
+
+/* force action column to behave properly */
+td:last-child {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+/* normalize BOTH buttons */
+.edit-btn,
+.delete-btn {
+    padding: 6px 12px !important;
+    border-radius: 6px;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px;
+}
+
+/* ensure same height + alignment */
+.edit-btn {
+    background: #f59e0b !important;
+}
+
+.delete-btn {
+    background: #ef4444 !important;
+}
+
+#toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 999;
+}
+
+.toast-success {
+    background: #22c55e;
+}
+
+.toast-error {
+    background: #ef4444;
+}
