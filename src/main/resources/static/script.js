@@ -43,7 +43,6 @@ async function addStudent() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(student)
             });
-
         } else {
             // UPDATE
             res = await fetch(API_URL + "/" + editId, {
@@ -53,7 +52,7 @@ async function addStudent() {
             });
         }
 
-        // 🔥 IMPORTANT FIX (error handling)
+        // 🔥 PROPER ERROR HANDLING
         if (!res.ok) {
             let errorMessage = "Operation failed";
 
@@ -61,7 +60,7 @@ async function addStudent() {
                 const errorData = await res.json();
                 errorMessage = errorData.message || errorMessage;
             } catch (e) {
-                // fallback if response not JSON
+                // If backend doesn't return JSON
             }
 
             throw new Error(errorMessage);
@@ -80,7 +79,7 @@ async function addStudent() {
         loadStudents();
 
     } catch (err) {
-        showToast(err.message, "error"); // 🔥 now shows real backend message
+        showToast(err.message, "error"); // 🔥 real backend message shown
         console.error(err);
     }
 }
@@ -89,6 +88,9 @@ async function addStudent() {
 async function loadStudents() {
     try {
         const res = await fetch(API_URL);
+
+        if (!res.ok) throw new Error("Failed to load students");
+
         const data = await res.json();
 
         const tableBody = document.getElementById("tableBody");
@@ -112,7 +114,7 @@ async function loadStudents() {
         });
 
     } catch (err) {
-        showToast("Failed to load students", "error");
+        showToast(err.message, "error");
         console.error(err);
     }
 }
@@ -126,14 +128,15 @@ async function deleteStudent(id) {
             method: "DELETE"
         });
 
-        if (!res.ok) throw new Error();
+        if (!res.ok) {
+            throw new Error("Delete failed");
+        }
 
         showToast("Student deleted", "success");
-
         loadStudents();
 
     } catch (err) {
-        showToast("Delete failed", "error");
+        showToast(err.message, "error");
         console.error(err);
     }
 }
@@ -141,7 +144,10 @@ async function deleteStudent(id) {
 /* ================= EDIT ================= */
 function editStudent(id) {
     fetch(API_URL + "/" + id)
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) throw new Error("Failed to fetch student");
+            return res.json();
+        })
         .then(student => {
             document.getElementById("name").value = student.name;
             document.getElementById("rollNumber").value = student.rollNumber;
@@ -150,8 +156,10 @@ function editStudent(id) {
             document.getElementById("course").value = student.course;
 
             editId = id;
-
             document.querySelector(".primary-btn").innerText = "Update Student";
+        })
+        .catch(err => {
+            showToast(err.message, "error");
         });
 }
 

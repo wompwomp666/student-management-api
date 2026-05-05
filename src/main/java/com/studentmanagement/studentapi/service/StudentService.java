@@ -16,7 +16,7 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
-    // ✅ ADD STUDENT WITH VALIDATION
+    // ✅ ADD STUDENT WITH FULL VALIDATION
     public Student addStudent(Student student) {
 
         if (studentRepository.existsByRollNumber(student.getRollNumber())) {
@@ -25,6 +25,10 @@ public class StudentService {
 
         if (studentRepository.existsByEmail(student.getEmail())) {
             throw new RuntimeException("Email already exists");
+        }
+
+        if (studentRepository.existsByPhoneNumber(student.getPhoneNumber())) {
+            throw new RuntimeException("Phone number already exists");
         }
 
         return studentRepository.save(student);
@@ -46,22 +50,28 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
-    // ✅ UPDATE WITH DUPLICATE CHECK (IMPORTANT)
+    // ✅ UPDATE WITH FULL DUPLICATE CHECK
     public Student updateStudent(Long id, Student updatedStudent) {
 
         Student existingStudent = studentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
 
-        // Check roll number (ignore same record)
+        // Roll number check (ignore same record)
         if (!existingStudent.getRollNumber().equals(updatedStudent.getRollNumber()) &&
                 studentRepository.existsByRollNumber(updatedStudent.getRollNumber())) {
             throw new RuntimeException("Roll number already exists");
         }
 
-        // Check email (ignore same record)
+        // Email check (ignore same record)
         if (!existingStudent.getEmail().equals(updatedStudent.getEmail()) &&
                 studentRepository.existsByEmail(updatedStudent.getEmail())) {
             throw new RuntimeException("Email already exists");
+        }
+
+        // Phone check (ignore same record)
+        if (!existingStudent.getPhoneNumber().equals(updatedStudent.getPhoneNumber()) &&
+                studentRepository.existsByPhoneNumber(updatedStudent.getPhoneNumber())) {
+            throw new RuntimeException("Phone number already exists");
         }
 
         existingStudent.setName(updatedStudent.getName());

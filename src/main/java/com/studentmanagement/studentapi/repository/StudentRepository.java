@@ -8,4 +8,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     boolean existsByRollNumber(String rollNumber);
 
     boolean existsByEmail(String email);
+
+    boolean existsByPhoneNumber(String phoneNumber);
 }
